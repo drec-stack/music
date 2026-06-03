@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura Music | Premium Streaming</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0a0c;
+            --bg-sidebar: #121214;
+            --accent: #6366f1;
+            --accent-hover: #818cf8;
+            --text-main: #ffffff;
+            --text-muted: #a1a1aa;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+        }
+
+        /* Sidebar Navigation */
+        aside {
+            width: 260px;
+            background-color: var(--bg-sidebar);
+            border-right: 1px solid var(--glass-border);
+            display: flex;
+            flex-direction: column;
+            padding: 24px;
+            z-index: 10;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--accent);
+            border-radius: 8px;
+        }
+
+        nav {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .nav-item {
+            padding: 12px 16px;
+            border-radius: 12px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-item:hover {
+            color: var(--text-main);
+            background: var(--glass);
+        }
+
+        .nav-item.active {
+            color: var(--text-main);
+            background: var(--accent);
+        }
+
+        .library-section {
+            margin-top: 40px;
+        }
+
+        .section-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+            padding-left: 16px;
+        }
+
+        /* Main Content */
+        main {
+            flex: 1;
+            overflow-y: auto;
+            background: linear-gradient(180deg, #1a1a1e 0%, var(--bg-dark) 100%);
+            position: relative;
+            scrollbar-width: thin;
+            scrollbar-color: var(--glass-border) transparent;
+        }
+
+        .top-bar {
+            position: sticky;
+            top: 0;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 32px;
+            backdrop-filter: blur(20px);
+            background: rgba(10, 10, 12, 0.7);
+            z-index: 5;
+        }
+
+        .search-container {
+            position: relative;
+            width: 400px;
+        }
+
+        .search-input {
+            width: 100%;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            padding: 12px 20px;
+            border-radius: 20px;
+            color: white;
+            font-size: 14px;
+            transition: var(--transition);
+            outline: none;
+        }
+
+        .search-input:focus {
+            border-color: var(--accent);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        /* Content Grid */
+        .content-wrapper {
+            padding: 32px;
+        }
+
+        .hero-banner {
+            width: 100%;
+            height: 300px;
+            border-radius: 24px;
+            background: linear-gradient(45deg, #4f46e5, #9333ea);
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            padding: 0 60px;
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .hero-banner:hover {
+            transform: scale(1.01);
+        }
+
+        .hero-text h1 {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .hero-text p {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 24px;
+            font-size: 16px;
+        }
+
+        .btn-primary {
+            background: white;
+            color: black;
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .grid-section {
+            margin-bottom: 48px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 24px;
+            margin-top: 20px;
+        }
+
+        .card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            padding: 20px;
+            border-radius: 20px;
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .card:hover {
+            background: rgba(255, 255, 255, 0.07);
+            transform: translateY(-8px);
+            border-color: var(--accent);
+        }
+
+        .card-img {
+            width: 100%;
+            aspect-ratio: 1;
+            background: #2a2a2e;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .card:hover .card-img img {
+            transform: scale(1.1);
+        }
+
+        .card-title {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+
+        .card-subtitle {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        /* Player Bar */
+        .player-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 90px;
+            background: rgba(18, 18, 20, 0.9);
+            backdrop-filter: blur(30px);
+            border-top: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            z-index: 100;
+        }
+
+        .current-track {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            width: 30%;
+        }
+
+        .track-thumb {
+            width: 56px;
+            height: 56px;
+            border-radius: 8px;
+            background: #333;
+        }
+
+        .player-controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            width: 40%;
+        }
+
+        .control-buttons {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .play-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: white;
+            color: black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .play-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .progress-container {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 4px;
+            background: var(--glass-border);
+            border-radius: 2px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .progress-fill {
+            width: 35%;
+            height: 100%;
+            background: var(--accent);
+            border-radius: 2px;
+            position: relative;
+        }
+
+        .volume-controls {
+            width: 30%;
+            display: flex;
+            justify-content: flex-end;
+            gap: 16px;
+            align-items: center;
+            color: var(--text-muted);
+        }
+
+        .volume-slider {
+            width: 100px;
+            height: 4px;
+            background: var(--glass-border);
+            border-radius: 2px;
+        }
+
+        .volume-fill {
+            width: 70%;
+            height: 100%;
+            background: var(--text-muted);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fade {
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+    </style>
+</head>
+<body>
+
+    <aside>
+        <div class="logo">
+            <div class="logo-icon"></div>
+            <span>Aura Music</span>
+        </div>
+        
+        <nav>
+            <a href="#" class="nav-item active" onclick="switchTab(this)">Главная</a>
+            <a href="#" class="nav-item" onclick="switchTab(this)">Обзор</a>
+            <a href="#" class="nav-item" onclick="switchTab(this)">Радио</a>
+        </nav>
+
+        <div class="library-section">
+            <div class="section-title">Моя библиотека</div>
+            <nav>
+                <a href="#" class="nav-item" onclick="switchTab(this)">Плейлисты</a>
+                <a href="#" class="nav-item" onclick="switchTab(this)">Альбомы</a>
+                <a href="#" class="nav-item" onclick="switchTab(this)">Исполнители</a>
+                <a href="#" class="nav-item" onclick="switchTab(this)">Любимые треки</a>
+            </nav>
+        </div>
+    </aside>
+
+    <main>
+        <div class="top-bar">
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Поиск музыки, артистов, альбомов...">
+            </div>
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <span style="font-size: 14px; font-weight: 500;">User Profile</span>
+                <div style="width: 35px; height: 35px; border-radius: 50%; background: var(--glass); border: 1px solid var(--glass-border);"></div>
+            </div>
+        </div>
+
+        <div class="content-wrapper">
+            <div class="hero-banner animate-fade">
+                <div class="hero-text">
+                    <h1>Новые горизонты звука</h1>
+                    <p>Погрузитесь в персонализированные подборки, созданные специально для вас на основе ваших предпочтений.</p>
+                    <button class="btn-primary">Слушать сейчас</button>
+                </div>
+            </div>
+
+            <div class="grid-section animate-fade" style="animation-delay: 0.1s;">
+                <div class="section-title">Популярное сейчас</div>
+                <div class="grid-container">
+                    <!-- Card 1 -->
+                    <div class="card">
+                        <div class="card-img"><img src="https://picsum.photos/200?random=1" alt="cover"></div>
+                        <div class="card-title">Midnight City</div>
+                        <div class="card-subtitle">M83</div>
+                    </div>
+                    <!-- Card 2 -->
+                    <div class="card">
+                        <div class="card-img"><img src="https://picsum.photos/200?random=2" alt="cover"></div>
+                        <div class="card-title">Starboy</div>
+                        <div class="card-subtitle">The Weeknd</div>
+                    </div>
+                    <!-- Card 3 -->
+                    <div class="card">
+                        <div class="card-img"><img src="https://picsum.photos/200?random=3" alt="cover"></div>
+                        <div class="card-title">Blinding Lights</div>
+                        <div class="card-subtitle">Synthwave Mix</div>
+                    </div>
+                    <!-- Card 4 -->
+                    <div class="card">
+                        <div class="card-img"><img src="https://picsum.photos/200?random=4" alt="cover"></div>
+                        <div class="card-title">Deep Focus</div>
+                        <div class="card-subtitle">Ambient Study</div>
+                    </div>
+                    <!-- Card 5 -->
+                    <div class="card">
+                        <div class="card-img"><img src="https://picsum.photos/200?random=5" alt="cover"></div>
+                        <div class="card-title">Night Drive</div>
+                        <div class="card-subtitle">Retrowave</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-section animate-fade" style="animation-delay: 0.2s;">
+                <div class="section-title">Ваши плейлисты</div>
+                <div class="grid-container">
+                    <div class="card">
+                        <div class="card-img"><img src="https://picsum.photos/200?random=6" alt="cover"></div>
+                        <div class="card-title">Тренировка</div>
+                        <div class="card-subtitle">120 треков</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-img"><img src="https://picsum.photos/200?random=7" alt="cover"></div>
+                        <div class="card-title">Релакс</div>
+                        <div class="card-subtitle">45 треков</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-img"><img src="https://picsum.photos/200?random=8" alt="cover"></div>
+                        <div class="card-title">Код и Музыка</div>
+                        <div class="card-subtitle">80 треков</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="player-bar">
+        <div class="current-track">
+            <div class="track-thumb" style="background: url('https://picsum.photos/60?random=10') center/cover;"></div>
+            <div>
+                <div style="font-size: 14px; font-weight: 600;">Midnight City</div>
+                <div style="font-size: 12px; color: var(--text-muted);">M83</div>
+            </div>
+        </div>
+
+        <div class="player-controls">
+            <div class="control-buttons">
+                <div style="color: var(--text-muted); cursor: pointer;">⏮</div>
+                <div class="play-btn">▶</div>
+                <div style="color: var(--text-muted); cursor: pointer;">⏭</div>
+            </div>
+            <div class="progress-container">
+                <span>1:24</span>
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+                <span>3:45</span>
+            </div>
+        </div>
+
+        <div class="volume-controls">
+            <span>🔊</span>
+            <div class="volume-slider">
+                <div class="volume-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(element) {
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            element.classList.add('active');
+        }
+
+        // Эмуляция интерактивности плеера
+        const playBtn = document.querySelector('.play-btn');
+        let isPlaying = false;
+
+        playBtn.addEventListener('click', () => {
+            isPlaying = !isPlaying;
+            playBtn.innerText = isPlaying ? '⏸' : '▶';
+            playBtn.style.transform = 'scale(0.9)';
+            setTimeout(() => playBtn.style.transform = 'scale(1.1)', 100);
+        });
+
+        // Плавное появление элементов при скролле
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.grid-section').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
