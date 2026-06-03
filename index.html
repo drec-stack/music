@@ -3,20 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SONUS | Premium Music Platform</title>
+    <title>SONUS | High-Fidelity Audio Experience</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-black: #0a0a0a;
-            --bg-dark: #121212;
-            --bg-light: #1c1c1c;
-            --accent: #8b5cf6;
-            --accent-hover: #a78bfa;
-            --text-main: #ffffff;
-            --text-secondary: #a0a0a0;
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --bg-deep: #050505;
+            --bg-surface: #0f0f0f;
+            --bg-elevated: #1a1a1a;
+            --accent: #7c3aed;
+            --accent-bright: #a78bfa;
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --transition-smooth: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
         }
 
         * {
@@ -24,477 +27,645 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
         }
 
         body {
-            background-color: var(--bg-black);
-            color: var(--text-main);
+            background-color: var(--bg-deep);
+            color: var(--text-primary);
             overflow: hidden;
             height: 100vh;
         }
 
-        /* Layout Structure */
-        .app-container {
+        /* Layout */
+        .app-shell {
             display: grid;
-            grid-template-columns: 260px 1fr;
-            grid-template-rows: 1fr 100px;
+            grid-template-columns: 280px 1fr;
+            grid-template-rows: 1fr 110px;
             height: 100vh;
         }
 
         /* Sidebar */
         .sidebar {
-            background-color: var(--bg-black);
-            padding: 24px;
+            background-color: var(--bg-deep);
+            padding: 32px 20px;
             display: flex;
             flex-direction: column;
-            gap: 32px;
-            border-right: 1px solid #222;
+            gap: 40px;
+            border-right: 1px solid var(--glass-border);
+            z-index: 10;
         }
 
-        .logo {
-            font-size: 24px;
-            font-weight: 700;
-            letter-spacing: -1px;
+        .brand {
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-left: 12px;
+        }
+
+        .brand span {
             color: var(--accent);
-            margin-bottom: 20px;
         }
 
-        .nav-group {
+        .nav-section {
             display: flex;
             flex-direction: column;
             gap: 8px;
         }
 
-        .nav-item {
+        .nav-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            margin: 0 12px 12px;
+        }
+
+        .nav-link {
             text-decoration: none;
             color: var(--text-secondary);
             font-size: 14px;
             font-weight: 500;
-            padding: 10px 12px;
-            border-radius: 8px;
-            transition: var(--transition);
+            padding: 12px 16px;
+            border-radius: 12px;
+            transition: var(--transition-smooth);
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .nav-link:hover {
+            color: var(--text-primary);
+            background: var(--glass);
+        }
+
+        .nav-link.active {
+            color: var(--text-primary);
+            background: var(--accent);
+            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+        }
+
+        /* Main View */
+        .main-view {
+            background: radial-gradient(circle at top left, #111, var(--bg-deep));
+            overflow-y: auto;
+            padding: 0 40px 120px;
+            scrollbar-width: none;
+        }
+
+        .main-view::-webkit-scrollbar { display: none; }
+
+        .top-bar {
+            height: 100px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .search-container {
+            position: relative;
+            width: 400px;
+        }
+
+        .search-input {
+            width: 100%;
+            background: var(--bg-elevated);
+            border: 1px solid var(--glass-border);
+            padding: 14px 20px;
+            border-radius: 16px;
+            color: white;
+            font-size: 14px;
+            outline: none;
+            transition: var(--transition-smooth);
+        }
+
+        .search-input:focus {
+            border-color: var(--accent);
+            background: var(--bg-surface);
+            box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.1);
+        }
+
+        .user-chip {
             display: flex;
             align-items: center;
             gap: 12px;
-        }
-
-        .nav-item:hover, .nav-item.active {
-            color: var(--text-main);
-            background: var(--bg-light);
-        }
-
-        /* Main Content */
-        .main-content {
-            background: linear-gradient(180deg, #1a1a1a 0%, var(--bg-dark) 100%);
-            overflow-y: auto;
-            padding: 32px 40px;
-            scrollbar-width: thin;
-            scrollbar-color: var(--bg-light) transparent;
-        }
-
-        .main-content::-webkit-scrollbar {
-            width: 6px;
-        }
-        .main-content::-webkit-scrollbar-thumb {
-            background: var(--bg-light);
-            border-radius: 10px;
-        }
-
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 40px;
-        }
-
-        .search-bar {
-            background: var(--bg-light);
-            border: none;
-            padding: 12px 20px;
-            border-radius: 20px;
-            color: white;
-            width: 300px;
-            outline: none;
-            transition: var(--transition);
-            border: 1px solid transparent;
-        }
-
-        .search-bar:focus {
-            border-color: var(--accent);
-            width: 350px;
-        }
-
-        /* Sections */
-        .section-title {
-            font-size: 22px;
-            font-weight: 600;
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .section-link {
-            font-size: 13px;
-            color: var(--text-secondary);
+            padding: 6px 16px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
             cursor: pointer;
-            transition: var(--transition);
+            transition: var(--transition-smooth);
         }
 
-        .section-link:hover {
-            color: var(--accent);
+        .user-chip:hover { background: var(--bg-elevated); }
+
+        .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--accent), var(--accent-bright));
         }
 
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 24px;
-            margin-bottom: 40px;
-        }
-
-        /* Cards */
-        .card {
-            background: var(--bg-light);
-            padding: 16px;
-            border-radius: 12px;
-            transition: var(--transition);
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card:hover {
-            background: #282828;
-            transform: translateY(-5px);
-        }
-
-        .card-img {
-            width: 100%;
-            aspect-ratio: 1/1;
-            background: #333;
-            border-radius: 8px;
-            margin-bottom: 16px;
+        /* Hero Section */
+        .hero {
+            height: 320px;
+            border-radius: 24px;
+            background: linear-gradient(to right, rgba(0,0,0,0.8), transparent), 
+                        url('https://images.unsplash.com/photo-1493225255267-535b69a5a7a9?w=1200');
             background-size: cover;
             background-position: center;
-            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 40px;
+            margin-bottom: 40px;
+            border: 1px solid var(--glass-border);
         }
 
-        .card:hover .card-img {
-            filter: brightness(1.1);
+        .hero-tag {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--accent-bright);
+            margin-bottom: 12px;
         }
 
-        .card-title {
-            font-size: 15px;
+        .hero-title {
+            font-size: 42px;
+            font-weight: 800;
+            max-width: 500px;
+            line-height: 1.1;
+            margin-bottom: 24px;
+        }
+
+        .hero-btn {
+            width: fit-content;
+            padding: 14px 28px;
+            background: var(--text-primary);
+            color: black;
+            border-radius: 12px;
             font-weight: 600;
-            margin-bottom: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
         }
 
-        .card-subtitle {
-            font-size: 13px;
-            color: var(--text-secondary);
-        }
+        .hero-btn:hover { transform: scale(1.05); background: var(--accent-bright); color: white; }
 
-        /* Player Bar */
-        .player-bar {
-            grid-column: 1 / 3;
-            background: rgba(18, 18, 18, 0.95);
-            backdrop-filter: blur(20px);
-            border-top: 1px solid #222;
+        /* Filters */
+        .filter-bar {
             display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 24px;
-            z-index: 100;
-        }
-
-        .current-track {
-            display: flex;
-            align-items: center;
             gap: 12px;
-            width: 30%;
+            margin-bottom: 32px;
+        }
+
+        .filter-pill {
+            padding: 8px 20px;
+            background: var(--bg-elevated);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .filter-pill.active {
+            background: var(--text-primary);
+            color: black;
+            border-color: var(--text-primary);
+        }
+
+        /* Content Grid */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .section-header h2 {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 24px;
+        }
+
+        .track-card {
+            background: var(--bg-surface);
+            padding: 20px;
+            border-radius: 20px;
+            border: 1px solid transparent;
+            transition: var(--transition-smooth);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .track-card:hover {
+            background: var(--bg-elevated);
+            border-color: var(--glass-border);
+            transform: translateY(-8px);
+        }
+
+        .img-container {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: 14px;
+            overflow: hidden;
+            margin-bottom: 16px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
         }
 
         .track-img {
-            width: 56px;
-            height: 56px;
-            border-radius: 4px;
-            background: #333;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition-smooth);
         }
 
-        .track-info .name {
-            font-size: 14px;
-            font-weight: 500;
+        .track-card:hover .track-img { transform: scale(1.1); }
+
+        .play-overlay {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: var(--transition-smooth);
         }
 
-        .track-info .artist {
-            font-size: 12px;
-            color: var(--text-secondary);
+        .track-card:hover .play-overlay { opacity: 1; transform: translateY(0); }
+
+        .track-info h3 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+        .track-info p { font-size: 14px; color: var(--text-secondary); }
+
+        /* Player Bar */
+        .player-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 110px;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(30px);
+            border-top: 1px solid var(--glass-border);
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            align-items: center;
+            padding: 0 32px;
+            z-index: 1000;
         }
+
+        .now-playing {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .now-img {
+            width: 64px;
+            height: 64px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+        }
+
+        .now-details h4 { font-size: 14px; font-weight: 600; }
+        .now-details p { font-size: 12px; color: var(--text-secondary); }
 
         .player-controls {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 8px;
-            width: 40%;
+            gap: 12px;
         }
 
-        .control-buttons {
+        .ctrl-btns {
             display: flex;
             align-items: center;
             gap: 24px;
         }
 
-        .btn-control {
+        .btn-action {
             background: none;
             border: none;
-            color: var(--text-main);
+            color: var(--text-secondary);
             cursor: pointer;
-            transition: var(--transition);
+            transition: var(--transition-smooth);
+            font-size: 18px;
+        }
+
+        .btn-action:hover { color: var(--text-primary); }
+
+        .btn-play-main {
+            width: 48px;
+            height: 48px;
+            background: var(--text-primary);
+            color: black;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-weight: bold;
+            transition: var(--transition-smooth);
         }
 
-        .btn-play {
-            background: white;
-            color: black;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            font-size: 12px;
-        }
+        .btn-play-main:hover { transform: scale(1.1); background: var(--accent-bright); color: white; }
 
-        .btn-play:hover {
-            transform: scale(1.1);
-            background: var(--accent-hover);
-            color: white;
-        }
-
-        .progress-container {
+        .playback-slider {
+            width: 450px;
             display: flex;
             align-items: center;
-            gap: 10px;
-            width: 100%;
-            max-width: 500px;
+            gap: 15px;
         }
 
-        .progress-bar {
+        .progress-bg {
             flex: 1;
             height: 4px;
-            background: #444;
+            background: var(--bg-elevated);
             border-radius: 2px;
             position: relative;
             cursor: pointer;
         }
 
-        .progress-current {
-            width: 30%;
+        .progress-fill {
+            width: 35%;
             height: 100%;
             background: var(--accent);
             border-radius: 2px;
             position: relative;
         }
 
-        .time {
-            font-size: 11px;
-            color: var(--text-secondary);
-            min-width: 35px;
-        }
+        .time { font-size: 12px; color: var(--text-muted); font-weight: 500; }
 
-        .volume-controls {
+        .volume-group {
             display: flex;
             justify-content: flex-end;
             align-items: center;
             gap: 12px;
-            width: 30%;
         }
 
-        .volume-slider {
+        .vol-slider {
             width: 100px;
             height: 4px;
-            background: #444;
+            background: var(--bg-elevated);
             border-radius: 2px;
         }
 
+        .vol-fill { width: 70%; height: 100%; background: var(--text-secondary); border-radius: 2px; }
+
         /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .animate-fade {
-            animation: fadeIn 0.5s ease forwards;
-        }
+        .animate-up { animation: slideUp 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
+
     </style>
 </head>
 <body>
 
-<div class="app-container">
-    <!-- Sidebar -->
+<div class="app-shell">
     <aside class="sidebar">
-        <div class="logo">SONUS</div>
+        <div class="brand">SONUS<span>.</span></div>
         
-        <div class="nav-group">
-            <a class="nav-item active" onclick="navigate('home')">Главная</a>
-            <a class="nav-item" onclick="navigate('search')">Поиск</a>
-            <a class="nav-item" onclick="navigate('library')">Библиотека</a>
+        <div class="nav-section">
+            <div class="nav-label">Меню</div>
+            <a class="nav-link active" onclick="switchTab(this, 'home')">Главная</a>
+            <a class="nav-link" onclick="switchTab(this, 'explore')">Обзор</a>
+            <a class="nav-link" onclick="switchTab(this, 'library')">Библиотека</a>
         </div>
 
-        <div class="nav-group" style="margin-top: 20px;">
-            <div style="font-size: 12px; color: #555; margin-bottom: 10px; padding-left: 12px; text-transform: uppercase;">Плейлисты</div>
-            <a class="nav-item">Избранное</a>
-            <a class="nav-item">Новинки недели</a>
-            <a class="nav-item">Глубокий фокус</a>
-            <a class="nav-item">Вечерний вайб</a>
+        <div class="nav-section">
+            <div class="nav-label">Ваши плейлисты</div>
+            <a class="nav-link">Ночной город</a>
+            <a class="nav-link">Deep Focus</a>
+            <a class="nav-link">Техно-драйв</a>
+            <a class="nav-link">Chill Out</a>
         </div>
     </aside>
 
-    <!-- Main Content -->
-    <main class="main-content" id="main-view">
-        <header>
-            <input type="text" class="search-bar" placeholder="Что вы хотите послушать?">
-            <div class="user-profile" style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
-                <div style="text-align: right;">
-                    <div style="font-size: 14px; font-weight: 600;">Александр В.</div>
-                    <div style="font-size: 11px; color: var(--text-secondary);">Premium</div>
-                </div>
-                <div style="width: 32px; height: 32px; background: linear-gradient(45deg, var(--accent), #c084fc); border-radius: 50%;"></div>
+    <main class="main-view" id="main-view">
+        <div class="top-bar">
+            <div class="search-container">
+                <input type="text" class="search-input" id="search-box" placeholder="Поиск треков, артистов, альбомов..." oninput="filterMusic()">
             </div>
-        </header>
+            <div class="user-chip">
+                <div class="avatar"></div>
+                <div style="text-align: right">
+                    <div style="font-size: 13px; font-weight: 600;">Александр В.</div>
+                    <div style="font-size: 10px; color: var(--text-muted);">Premium Plan</div>
+                </div>
+            </div>
+        </div>
 
-        <div id="content-area">
-            <!-- Home Page Content -->
-            <section class="animate-fade">
-                <div class="section-title">
-                    Рекомендовано для вас
-                    <span class="section-link">Все</span>
-                </div>
-                <div class="grid-container" id="recommendations">
-                    <!-- Cards will be injected by JS -->
-                </div>
+        <div id="page-content">
+            <!-- Hero Section -->
+            <div class="hero animate-up">
+                <div class="hero-tag">Рекомендация недели</div>
+                <h1 class="hero-title">Погружение в атмосферу нео-синтетики</h1>
+                <div class="hero-btn">Слушать сейчас</div>
+            </div>
 
-                <div class="section-title">
-                    Популярно сейчас
-                    <span class="section-link">Все</span>
-                </div>
-                <div class="grid-container" id="popular">
-                    <!-- Cards will be injected by JS -->
-                </div>
-            </section>
+            <!-- Filters -->
+            <div class="filter-bar animate-up" style="animation-delay: 0.1s;">
+                <div class="filter-pill active" onclick="filterGenre('all', this)">Все</div>
+                <div class="filter-pill" onclick="filterGenre('electronic', this)">Electronic</div>
+                <div class="filter-pill" onclick="filterGenre('ambient', this)">Ambient</div>
+                <div class="filter-pill" onclick="filterGenre('pop', this)">Pop</div>
+                <div class="filter-pill" onclick="filterGenre('jazz', this)">Jazz</div>
+            </div>
+
+            <!-- Music Grid -->
+            <div class="section-header animate-up" style="animation-delay: 0.2s;">
+                <h2>Популярные треки</h2>
+            </div>
+            <div class="grid" id="music-grid">
+                <!-- Content generated by JS -->
+            </div>
         </div>
     </main>
 
-    <!-- Player Bar -->
     <footer class="player-bar">
-        <div class="current-track">
-            <div class="track-img" id="player-img" style="background-image: url('https://images.unsplash.com/photo-1614613535308-a7f079df21f5?w=100&h=100&fit=crop')"></div>
-            <div class="track-info">
-                <div class="name" id="player-track-name">Midnight City</div>
-                <div class="artist" id="player-artist">M83</div>
+        <div class="now-playing">
+            <img src="" class="now-img" id="now-img" alt="">
+            <div class="now-details">
+                <h4 id="now-title">Выберите трек</h4>
+                <p id="now-artist">Слушайте лучшую музыку</p>
             </div>
         </div>
 
         <div class="player-controls">
-            <div class="control-buttons">
-                <button class="btn-control">◁</button>
-                <button class="btn-control btn-play" id="play-btn">▶</button>
-                <button class="btn-control">▷</button>
+            <div class="ctrl-btns">
+                <button class="btn-action">⏮</button>
+                <button class="btn-play-main" id="play-btn" onclick="togglePlay()">▶</button>
+                <button class="btn-action">⏭</button>
             </div>
-            <div class="progress-container">
-                <span class="time">1:24</span>
-                <div class="progress-bar">
-                    <div class="progress-current"></div>
+            <div class="playback-slider">
+                <span class="time" id="curr-time">0:00</span>
+                <div class="progress-bg" onclick="seek(event)">
+                    <div class="progress-fill" id="progress-fill"></div>
                 </div>
-                <span class="time">4:03</span>
+                <span class="time" id="dur-time">0:00</span>
             </div>
         </div>
 
-        <div class="volume-controls">
-            <span style="font-size: 14px; color: var(--text-secondary);">🔊</span>
-            <div class="volume-slider">
-                <div style="width: 70%; height: 100%; background: var(--text-main); border-radius: 2px;"></div>
+        <div class="volume-group">
+            <button class="btn-action" style="font-size: 14px;">🔊</button>
+            <div class="vol-slider">
+                <div class="vol-fill"></div>
             </div>
         </div>
     </footer>
 </div>
 
 <script>
-    // Database Simulation
-    const musicData = {
-        recommendations: [
-            { title: "Euphoria", artist: "Lana Del Rey", img: "https://images.unsplash.com/photo-1470225620780-dba 4eeb65739?w=200&h=200&fit=crop" },
-            { title: "Nightcall", artist: "Kavinsky", img: "https://images.unsplash.com/photo-1493225255267-535b69a5a7a9?w=200&h=200&fit=crop" },
-            { title: "Starboy", artist: "The Weeknd", img: "https://images.unsplash.com/photo-1459749411177-041224656704?w=200&h=200&fit=crop" },
-            { title: "Solar", artist: "FKJ", img: "https://images.unsplash.com/photo-1514525231468-155d17a27aee?w=200&h=200&fit=crop" },
-            { title: "Ocean", artist: "Karol G", img: "https://images.unsplash.com/photo-1511671782729-a0fb7a95bac7?w=200&h=200&fit=crop" },
-        ],
-        popular: [
-            { title: "Blinding Lights", artist: "The Weeknd", img: "https://images.unsplash.com/photo-1508718860336-f75bc6f52212?w=200&h=200&fit=crop" },
-            { title: "Levitating", artist: "Dua Lipa", img: "https://images.unsplash.com/photo-1496293455895-d595da586882?w=200&h=200&fit=crop" },
-            { title: "Stay", artist: "Justin Bieber", img: "https://images.unsplash.com/photo-1505740420996-2002ff3e3ad1?w=200&h=200&fit=crop" },
-            { title: "Heat Waves", artist: "Glass Animals", img: "https://images.unsplash.com/photo-1514525231468-155d17a27aee?w=200&h=200&fit=crop" },
-            { title: "Industry Baby", artist: "Lil Nas X", img: "https://images.unsplash.com/photo-1470225620780-dba4eeb65739?w=200&h=200&fit=crop" },
-        ]
-    };
+    const musicDB = [
+        { id: 1, title: "Nightcity Drive", artist: "Kavinsky", genre: "electronic", img: "https://images.unsplash.com/photo-1614613535308-a7f079df21f5?w=300" },
+        { id: 2, title: "Solar Echoes", artist: "FKJ", genre: "ambient", img: "https://images.unsplash.com/photo-1459749411177-041224656704?w=300" },
+        { id: 3, title: "Midnight City", artist: "M83", genre: "electronic", img: "https://images.unsplash.com/photo-1493225255267-535b69a5a7a9?w=300" },
+        { id: 4, title: "Golden Hour", artist: "Knafu", genre: "jazz", img: "https://images.unsplash.com/photo-1514525231468-155d17a27aee?w=300" },
+        { id: 5, title: "Neon Lights", artist: "The Weeknd", genre: "pop", img: "https://images.unsplash.com/photo-1508718860336-f75bc6f52212?w=300" },
+        { id: 6, title: "Deep Ocean", artist: "Hozier", genre: "ambient", img: "https://images.unsplash.com/photo-1511671782729-a0fb7a95bac7?w=300" },
+        { id: 7, title: "Urban Flow", artist: "Kaytranada", genre: "electronic", img: "https://images.unsplash.com/photo-1470225620780-dba4eeb65739?w=300" },
+        { id: 8, title: "Velvet Sky", artist: "Lana Del Rey", genre: "pop", img: "https://images.unsplash.com/photo-1505740420996-2002ff3e3ad1?w=300" },
+    ];
+
+    let isPlaying = false;
+    let currentTrack = null;
+    let timer = null;
+    let timeSeconds = 0;
 
     function init() {
-        renderGrid('recommendations', musicData.recommendations);
-        renderGrid('popular', musicData.popular);
-        setupPlayer();
+        renderMusic(musicDB);
     }
 
-    function renderGrid(id, data) {
-        const container = document.getElementById(id);
-        container.innerHTML = data.map(item => `
-            <div class="card" onclick="playTrack('${item.title}', '${item.artist}', '${item.img}')">
-                <div class="card-img" style="background-image: url('${item.img}')"></div>
-                <div class="card-title">${item.title}</div>
-                <div class="card-subtitle">${item.artist}</div>
+    function renderMusic(data) {
+        const grid = document.getElementById('music-grid');
+        grid.innerHTML = data.map(track => `
+            <div class="track-card animate-up" onclick="playTrack(${track.id})">
+                <div class="img-container">
+                    <img src="${track.img}" class="track-img">
+                    <div class="play-overlay">▶</div>
+                </div>
+                <div class="track-info">
+                    <h3>${track.title}</h3>
+                    <p>${track.artist}</p>
+                </div>
             </div>
         `).join('');
     }
 
-    function navigate(page) {
-        const items = document.querySelectorAll('.nav-item');
-        items.forEach(item => item.classList.remove('active'));
-        event.target.classList.add('active');
+    function filterMusic() {
+        const query = document.getElementById('search-box').value.toLowerCase();
+        const filtered = musicDB.filter(t => 
+            t.title.toLowerCase().includes(query) || 
+            t.artist.toLowerCase().includes(query)
+        );
+        renderMusic(filtered);
+    }
 
-        const content = document.getElementById('content-area');
-        if(page === 'search') {
-            content.innerHTML = `<div class="animate-fade" style="text-align:center; margin-top: 100px;">
-                <h1 style="font-size: 32px; margin-bottom: 20px;">Поиск музыки</h1>
-                <p style="color: var(--text-secondary);">Введите название трека, артиста или альбома</p>
+    function filterGenre(genre, element) {
+        document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+        element.classList.add('active');
+        
+        if(genre === 'all') renderMusic(musicDB);
+        else renderMusic(musicDB.filter(t => t.genre === genre));
+    }
+
+    function playTrack(id) {
+        const track = musicDB.find(t => t.id === id);
+        currentTrack = track;
+        
+        document.getElementById('now-img').src = track.img;
+        document.getElementById('now-title').innerText = track.title;
+        document.getElementById('now-artist').innerText = track.artist;
+        
+        isPlaying = true;
+        document.getElementById('play-btn').innerText = '⏸';
+        
+        startTimer();
+    }
+
+    function togglePlay() {
+        isPlaying = !isPlaying;
+        document.getElementById('play-btn').innerText = isPlaying ? '⏸' : '▶';
+        if(!isPlaying) clearInterval(timer);
+        else startTimer();
+    }
+
+    function startTimer() {
+        clearInterval(timer);
+        timer = setInterval(() => {
+            timeSeconds++;
+            updateProgress();
+        }, 1000);
+    }
+
+    function updateProgress() {
+        const duration = 210; // 3:30
+        const percent = (timeSeconds / duration) * 100;
+        document.getElementById('progress-fill').style.width = `${percent}%`;
+        
+        const m = Math.floor(timeSeconds / 60);
+        const s = timeSeconds % 60;
+        document.getElementById('curr-time').innerText = `${m}:${s < 10 ? '0'+s : s}`;
+        document.getElementById('dur-time').innerText = `3:30`;
+    }
+
+    function seek(e) {
+        const rect = e.target.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const width = rect.width;
+        const percent = x / width;
+        timeSeconds = Math.floor(percent * 210);
+        updateProgress();
+    }
+
+    function switchTab(el, tab) {
+        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+        el.classList.add('active');
+        
+        const content = document.getElementById('page-content');
+        if(tab === 'explore') {
+            content.innerHTML = `<div class="animate-up" style="text-align:center; margin-top: 100px;">
+                <h1 style="font-size: 32px; margin-bottom: 12px;">Исследование</h1>
+                <p style="color: var(--text-secondary);">Откройте для себя новые горизонты музыки</p>
             </div>`;
-        } else if(page === 'library') {
-            content.innerHTML = `<div class="animate-fade" style="text-align:center; margin-top: 100px;">
-                <h1 style="font-size: 32px; margin-bottom: 20px;">Ваша библиотека</h1>
-                <p style="color: var(--text-secondary);">Здесь будут ваши сохраненные треки и плейлисты</p>
+        } else if(tab === 'library') {
+            content.innerHTML = `<div class="animate-up" style="text-align:center; margin-top: 100px;">
+                <h1 style="font-size: 32px; margin-bottom: 12px;">Ваша библиотека</h1>
+                <p style="color: var(--text-secondary);">Ваши сохраненные треки появятся здесь</p>
             </div>`;
         } else {
-            location.reload(); // Simplified for demo
+            location.reload();
         }
-    }
-
-    function playTrack(name, artist, img) {
-        document.getElementById('player-track-name').innerText = name;
-        document.getElementById('player-artist').innerText = artist;
-        document.getElementById('player-img').style.backgroundImage = `url('${img}')`;
-        
-        const playBtn = document.getElementById('play-btn');
-        playBtn.innerText = '⏸';
-    }
-
-    function setupPlayer() {
-        const playBtn = document.getElementById('play-btn');
-        playBtn.onclick = () => {
-            playBtn.innerText = playBtn.innerText === '▶' ? '⏸' : '▶';
-        };
     }
 
     window.onload = init;
 </script>
-
 </body>
 </html>
