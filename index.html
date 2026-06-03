@@ -3,15 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SONUS | Universal High-End Audio</title>
+    <title>SONUS | Professional Audio Interface</title>
     
-    <!-- Подключение шрифта с оптимизацией для всех ОС -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
-        /* Переменные дизайна с поддержкой fallback */
         :root {
             --color-bg: #030303;
             --color-surface: rgba(18, 18, 18, 0.75);
@@ -20,22 +18,20 @@
             --color-accent-glow: rgba(139, 92, 246, 0.3);
             --color-text-main: #ffffff;
             --color-text-secondary: #a1a1aa;
-            --color-text-muted: #71717a;
-            --color-border: rgba(255, 255, 255, 0.08);
+            --color-text-muted: #52525b;
+            --color-border: rgba(255, 255, 255, 0.06);
             
             --radius-md: 12px;
             --radius-lg: 24px;
-            --transition-smooth: all 0.4s cubic-bezier(0.2, 1, 0.3, 1);
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Обнуление и базовые настройки для всех браузеров */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Inter', sans-serif;
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
             cursor: default;
         }
 
@@ -44,10 +40,9 @@
             color: var(--color-text-main);
             overflow: hidden;
             height: 100vh;
-            width: 100vw;
         }
 
-        /* --- КРОСС-БРАУЗЕРНЫЙ ЖИДКИЙ ФОН --- */
+        /* --- LIQUID BACKGROUND --- */
         .liquid-canvas {
             position: fixed;
             top: 0;
@@ -55,30 +50,26 @@
             width: 100%;
             height: 100%;
             z-index: -2;
-            filter: blur(80px);
-            -webkit-filter: blur(80px); /* Для старых Safari */
+            filter: blur(100px);
             background: var(--color-bg);
-            overflow: hidden;
         }
 
         .blob {
             position: absolute;
             border-radius: 50%;
             mix-blend-mode: screen;
-            opacity: 0.5;
-            will-change: transform; /* Оптимизация для GPU */
+            opacity: 0.4;
             animation: float-liquid infinite alternate;
+            will-change: transform;
         }
 
         .blob-1 { width: 60vw; height: 60vw; background: #3b0764; top: -10%; left: -10%; animation-duration: 25s; }
-        .blob-2 { width: 50vw; height: 50vw; background: #1e3a8a; bottom: -10%; right: -10%; animation-duration: 30s; animation-delay: -5s; }
-        .blob-3 { width: 40vw; height: 40vw; background: #581c87; top: 30%; left: 40%; animation-duration: 20s; animation-delay: -2s; }
+        .blob-2 { width: 50vw; height: 50vw; background: #1e3a8a; bottom: -10%; right: -10%; animation-duration: 30s; }
+        .blob-3 { width: 40vw; height: 40vw; background: #581c87; top: 30%; left: 40%; animation-duration: 20s; }
 
         @keyframes float-liquid {
             0% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(10vw, 10vh) scale(1.1); }
-            66% { transform: translate(-5vw, 20vh) scale(0.9); }
-            100% { transform: translate(5vw, -5vh) scale(1.2); }
+            100% { transform: translate(10vw, 10vh) scale(1.2); }
         }
 
         .bg-dimmer {
@@ -87,12 +78,11 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.45);
+            background: rgba(0, 0, 0, 0.4);
             z-index: -1;
-            pointer-events: none;
         }
 
-        /* --- СТРУКТУРА ПРИЛОЖЕНИЯ --- */
+        /* --- APP SHELL --- */
         .app-container {
             display: grid;
             grid-template-columns: 260px 1fr;
@@ -101,7 +91,6 @@
             position: relative;
         }
 
-        /* Sidebar с поддержкой всех браузеров */
         .sidebar {
             background: var(--color-surface);
             -webkit-backdrop-filter: blur(60px);
@@ -119,19 +108,13 @@
             font-weight: 800;
             letter-spacing: -0.8px;
             padding-left: 12px;
-            color: var(--color-text-main);
             display: flex;
             align-items: center;
             gap: 8px;
         }
         .brand .dot { width: 6px; height: 6px; background: var(--color-accent); border-radius: 50%; }
 
-        .nav-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
+        .nav-group { display: flex; flex-direction: column; gap: 8px; }
         .nav-label {
             font-size: 11px;
             font-weight: 600;
@@ -155,25 +138,15 @@
             gap: 12px;
         }
 
-        .nav-link:hover {
-            color: var(--color-text-main);
-            background: var(--color-surface-light);
-        }
+        .nav-link:hover { color: var(--color-text-main); background: var(--color-surface-light); }
+        .nav-link.active { background: var(--color-accent); color: var(--color-text-main); box-shadow: 0 8px 20px var(--color-accent-glow); }
 
-        .nav-link.active {
-            background: var(--color-accent);
-            color: var(--color-text-main);
-            box-shadow: 0 8px 20px var(--color-accent-glow);
-        }
-
-        /* Основной контент */
         .main-content {
             overflow-y: auto;
             padding: 0 40px 110px;
-            scrollbar-width: none; /* Firefox */
-            -ms-overflow-style: none; /* IE/Edge */
+            scrollbar-width: none;
         }
-        .main-content::-webkit-scrollbar { display: none; } /* Chrome/Safari */
+        .main-content::-webkit-scrollbar { display: none; }
 
         .top-header {
             height: 100px;
@@ -197,15 +170,9 @@
             font-size: 14px;
             outline: none;
             transition: var(--transition-smooth);
-            -webkit-backdrop-filter: blur(20px);
-            backdrop-filter: blur(20px);
         }
 
-        .search-box:focus {
-            border-color: var(--color-accent);
-            background: var(--color-surface);
-            box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1);
-        }
+        .search-box:focus { border-color: var(--color-accent); background: var(--color-surface); }
 
         .profile-chip {
             display: flex;
@@ -217,8 +184,6 @@
             border-radius: 30px;
             cursor: pointer;
             transition: var(--transition-smooth);
-            -webkit-backdrop-filter: blur(20px);
-            backdrop-filter: blur(20px);
         }
 
         .avatar {
@@ -228,121 +193,103 @@
             background: linear-gradient(135deg, var(--color-accent), #c084fc);
         }
 
-        /* Hero-баннер */
-        .hero-banner {
-            height: 300px;
-            border-radius: var(--radius-lg);
-            background: linear-gradient(to right, rgba(0,0,0,0.9), transparent), 
-                        url('https://images.unsplash.com/photo-1493225255267-535b69a5a7a9?w=1200');
-            background-size: cover;
-            background-position: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 0 48px;
-            margin-bottom: 48px;
-            border: 1px solid var(--color-border);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
-        }
-
-        .hero-title {
-            font-size: 48px;
-            font-weight: 800;
-            max-width: 600px;
-            line-height: 1.1;
-            margin-bottom: 24px;
-            letter-spacing: -1px;
-        }
-
-        .hero-btn {
-            width: fit-content;
-            padding: 16px 32px;
-            background: white;
-            color: black;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 14px;
-            cursor: pointer;
-            transition: var(--transition-smooth);
-        }
-
-        .hero-btn:hover { transform: scale(1.05); background: var(--color-accent); color: white; }
-
-        /* Сетка музыки */
+        /* --- PROFESSIONAL TRACK LIST --- */
         .section-label {
-            font-size: 22px;
+            font-size: 24px;
             font-weight: 700;
             margin-bottom: 24px;
             letter-spacing: -0.5px;
         }
 
-        .music-grid {
+        .track-list-header {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 24px;
+            grid-template-columns: 40px 1fr 200px 150px 80px;
+            padding: 0 16px 8px;
+            border-bottom: 1px solid var(--color-border);
+            color: var(--color-text-muted);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .track-card {
-            background: var(--color-surface);
-            padding: 24px;
-            border-radius: var(--radius-lg);
-            border: 1px solid var(--color-border);
+        .track-row {
+            display: grid;
+            grid-template-columns: 40px 1fr 200px 150px 80px;
+            align-items: center;
+            padding: 8px 16px;
+            border-radius: var(--radius-md);
             transition: var(--transition-smooth);
             cursor: pointer;
-            -webkit-backdrop-filter: blur(20px);
-            backdrop-filter: blur(20px);
-            position: relative;
+            gap: 16px;
         }
 
-        .track-card:hover {
+        .track-row:hover {
             background: var(--color-surface-light);
-            transform: translateY(-10px);
-            border-color: rgba(255,255,255,0.2);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
         }
 
-        .img-wrapper {
+        .track-number {
+            color: var(--color-text-muted);
+            font-size: 14px;
+            font-weight: 500;
             position: relative;
-            width: 100%;
-            aspect-ratio: 1;
-            border-radius: var(--radius-md);
-            overflow: hidden;
-            margin-bottom: 20px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-        }
-
-        .track-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: var(--transition-smooth);
-        }
-
-        .track-card:hover .track-img { transform: scale(1.1); }
-
-        .play-btn-mini {
-            position: absolute;
-            bottom: 12px;
-            right: 12px;
-            width: 44px;
-            height: 44px;
-            background: var(--color-accent);
-            border-radius: 50%;
+            width: 20px;
+            height: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            opacity: 0;
-            transform: translateY(10px);
             transition: var(--transition-smooth);
-            box-shadow: 0 4px 12px var(--color-accent-glow);
         }
 
-        .track-card:hover .play-btn-mini { opacity: 1; transform: translateY(0); }
+        .play-icon-hover {
+            position: absolute;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: var(--transition-smooth);
+            pointer-events: none;
+        }
 
-        .track-info h3 { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
-        .track-info p { font-size: 14px; color: var(--color-text-secondary); }
+        .track-row:hover .track-number { color: transparent; }
+        .track-row:hover .play-icon-hover { opacity: 1; transform: scale(1); }
 
-        /* --- ПРЕМИУМ ПЛЕЕР --- */
+        .track-main {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .track-thumb {
+            width: 40px;
+            height: 40px;
+            border-radius: 6px;
+            object-fit: cover;
+        }
+
+        .track-details .title {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--color-text-main);
+            margin-bottom: 2px;
+        }
+
+        .track-details .artist {
+            font-size: 13px;
+            color: var(--color-text-secondary);
+        }
+
+        .track-album, .track-date {
+            font-size: 14px;
+            color: var(--color-text-secondary);
+        }
+
+        .track-duration {
+            font-size: 14px;
+            color: var(--color-text-secondary);
+            text-align: right;
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* --- PLAYER BAR --- */
         .player-bar {
             position: fixed;
             bottom: 0;
@@ -386,7 +333,7 @@
         .playback-btns {
             display: flex;
             align-items: center;
-            gap: 28px;
+            gap: 24px;
         }
 
         .btn-ctrl {
@@ -395,27 +342,29 @@
             color: var(--color-text-secondary);
             cursor: pointer;
             transition: var(--transition-smooth);
-            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .btn-ctrl:hover { color: var(--color-text-main); }
+        .btn-ctrl:hover { color: var(--color-text-main); transform: scale(1.1); }
 
         .btn-main-play {
-            width: 48px;
-            height: 48px;
+            width: 44px;
+            height: 44px;
             background: white;
-            color: black;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 700;
             cursor: pointer;
             transition: var(--transition-smooth);
             border: none;
         }
 
-        .btn-main-play:hover { transform: scale(1.1); background: var(--color-accent); color: white; }
+        .btn-main-play:hover { transform: scale(1.1); background: var(--color-accent); }
+        .btn-main-play svg { fill: black; transition: var(--transition-smooth); }
+        .btn-main-play:hover svg { fill: white; }
 
         .progress-wrap {
             width: 480px;
@@ -438,7 +387,6 @@
             height: 100%;
             background: var(--color-accent);
             border-radius: 2px;
-            transition: width 0.1s linear;
         }
 
         .time-stamp { font-size: 11px; color: var(--color-text-muted); font-weight: 500; }
@@ -459,22 +407,13 @@
 
         .vol-fill { width: 60%; height: 100%; background: var(--color-text-secondary); border-radius: 2px; }
 
-        /* Анимация появления */
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .reveal { 
-            animation: fadeInUp 0.8s cubic-bezier(0.2, 1, 0.3, 1) forwards; 
-            opacity: 0;
-        }
+        .reveal { animation: fadeInUp 0.8s cubic-bezier(0.2, 1, 0.3, 1) forwards; opacity: 0; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
     </style>
 </head>
 <body>
 
-<!-- Жидкий фон -->
 <div class="liquid-canvas">
     <div class="blob blob-1"></div>
     <div class="blob blob-2"></div>
@@ -483,17 +422,14 @@
 <div class="bg-dimmer"></div>
 
 <div class="app-container">
-    <!-- Боковая панель -->
     <aside class="sidebar">
         <div class="brand">SONUS<div class="dot"></div></div>
-        
         <div class="nav-group">
             <div class="nav-label">Меню</div>
             <a class="nav-link active" onclick="switchTab(this, 'home')">Главная</a>
             <a class="nav-link" onclick="switchTab(this, 'explore')">Обзор</a>
             <a class="nav-link" onclick="switchTab(this, 'library')">Библиотека</a>
         </div>
-
         <div class="nav-group">
             <div class="nav-label">Коллекции</div>
             <a class="nav-link">Ночной город</a>
@@ -503,10 +439,9 @@
         </div>
     </aside>
 
-    <!-- Основная область -->
     <main class="main-content">
         <div class="top-header">
-            <input type="text" class="search-box" placeholder="Поиск по всей библиотеке..." oninput="filterMusic()">
+            <input type="text" class="search-box" placeholder="Поиск треков, артистов..." oninput="filterMusic()">
             <div class="profile-chip">
                 <div class="avatar"></div>
                 <div style="text-align: right">
@@ -517,20 +452,24 @@
         </div>
 
         <div id="page-content">
-            <div class="hero-banner reveal">
-                <div style="font-size: 12px; font-weight: 700; text-transform: uppercase; color: var(--color-accent); margin-bottom: 12px; letter-spacing: 1px;">Premium Selection</div>
-                <h1 class="hero-title">Новый стандарт <br>цифрового звучания</h1>
-                <div class="hero-btn">Начать прослушивание</div>
+            <div class="section-label reveal">Популярное сейчас</div>
+            
+            <!-- Заголовок списка -->
+            <div class="track-list-header reveal" style="animation-delay: 0.1s;">
+                <div>№</div>
+                <div>Трек</div>
+                <div>Альбом</div>
+                <div>Дата добавления</div>
+                <div style="text-align: right;">⏳</div>
             </div>
 
-            <div class="section-label reveal" style="animation-delay: 0.1s;">Популярное сейчас</div>
-            <div class="music-grid" id="music-grid">
-                <!-- Генерация через JS -->
+            <!-- Список треков -->
+            <div id="music-list">
+                <!-- Generated by JS -->
             </div>
         </div>
     </main>
 
-    <!-- Плеер -->
     <footer class="player-bar">
         <div class="now-playing">
             <img src="" class="now-img" id="now-img">
@@ -542,9 +481,15 @@
 
         <div class="controls-center">
             <div class="playback-btns">
-                <button class="btn-ctrl">⏮</button>
-                <button class="btn-main-play" id="play-btn" onclick="togglePlay()">▶</button>
-                <button class="btn-ctrl">⏭</button>
+                <button class="btn-ctrl">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6l-8.5 6z"/></svg>
+                </button>
+                <button class="btn-main-play" id="play-btn" onclick="togglePlay()">
+                    <svg id="play-svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                </button>
+                <button class="btn-ctrl">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
+                </button>
             </div>
             <div class="progress-wrap">
                 <span class="time-stamp" id="curr-time">0:00</span>
@@ -556,25 +501,26 @@
         </div>
 
         <div class="volume-ctrl">
-            <button class="btn-ctrl" style="font-size: 16px;">🔊</button>
+            <button class="btn-ctrl">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9l9-7 9 7v18l-9-7-9 7V9zm14 2.5V11h-2v-1.5h-2v1.5H7v-1.5H9V8.5h2v1.5h2V8.5h2v1.5z"/></svg>
+            </button>
             <div class="vol-bar">
                 <div class="vol-fill"></div>
             </div>
         </div>
-    </footer>
+    </footer
 </div>
 
 <script>
-    // База данных треков
     const musicDB = [
-        { id: 1, title: "After Hours", artist: "The Weeknd", img: "https://images.unsplash.com/photo-1614613535308-a7f079df21f5?w=300" },
-        { id: 2, title: "Solaris", artist: "FKJ", img: "https://images.unsplash.com/photo-1459749411177-041224656704?w=300" },
-        { id: 3, title: "Neon Nights", artist: "Kavinsky", img: "https://images.unsplash.com/photo-1493225255267-535b69a5a7a9?w=300" },
-        { id: 4, title: "Quiet Morning", artist: "Hozier", img: "https://images.unsplash.com/photo-1514525231468-155d17a27aee?w=300" },
-        { id: 5, title: "Electric Love", artist: "Dua Lipa", img: "https://images.unsplash.com/photo-1508718860336-f75bc6f52212?w=300" },
-        { id: 6, title: "Deep Blue", artist: "Ambient Soul", img: "https://images.unsplash.com/photo-1511671782729-a0fb7a95bac7?w=300" },
-        { id: 7, title: "Urban Pulse", artist: "Kaytranada", img: "https://images.unsplash.com/photo-1470225620780-dba4eeb65739?w=300" },
-        { id: 8, title: "Velvet Rain", artist: "Lana Del Rey", img: "https://images.unsplash.com/photo-1505740420996-2002ff3e3ad1?w=300" },
+        { id: 1, title: "After Hours", artist: "The Weeknd", album: "After Hours", date: "2 окт 2023", duration: "6:01", img: "https://images.unsplash.com/photo-1614613535308-a7f079df21f5?w=100" },
+        { id: 2, title: "Solaris", artist: "FKJ", album: "Solis", date: "15 сен 2023", duration: "4:20", img: "https://images.unsplash.com/photo-1459749411177-041224656704?w=100" },
+        { id: 3, title: "Neon Nights", artist: "Kavinsky", album: "OutRun", date: "11 авг 2023", duration: "3:45", img: "https://images.unsplash.com/photo-1493225255267-535b69a5a7a9?w=100" },
+        { id: 4, title: "Quiet Morning", artist: "Hozier", album: "Unreal Unearth", date: "20 июл 2023", duration: "5:12", img: "https://images.unsplash.com/photo-1514525231468-155d17a27aee?w=100" },
+        { id: 5, title: "Electric Love", artist: "Dua Lipa", album: "Future Nostalgia", date: "10 июн 2023", duration: "3:28", img: "https://images.unsplash.com/photo-1508718860336-f75bc6f52212?w=100" },
+        { id: 6, title: "Deep Blue", artist: "Ambient Soul", album: "Oceania", date: "5 май 2023", duration: "7:05", img: "https://images.unsplash.com/photo-1511671782729-a0fb7a95bac7?w=100" },
+        { id: 7, title: "Urban Pulse", artist: "Kaytranada", album: "Bubba", date: "12 апр 2023", duration: "4:10", img: "https://images.unsplash.com/photo-1470225620780-dba4eeb65739?w=100" },
+        { id: 8, title: "Velvet Rain", artist: "Lana Del Rey", album: "Honeymoon", date: "3 мар 2023", duration: "4:50", img: "https://images.unsplash.com/photo-1505740420996-2002ff3e3ad1?w=100" },
     ];
 
     let isPlaying = false;
@@ -586,17 +532,25 @@
     }
 
     function renderMusic(data) {
-        const grid = document.getElementById('music-grid');
-        grid.innerHTML = data.map((track, index) => `
-            <div class="track-card reveal" style="animation-delay: ${0.2 + (index * 0.05)}s" onclick="playTrack(${track.id})">
-                <div class="img-wrapper">
-                    <img src="${track.img}" class="track-img">
-                    <div class="play-btn-mini">▶</div>
+        const list = document.getElementById('music-list');
+        list.innerHTML = data.map((track, index) => `
+            <div class="track-row reveal" style="animation-delay: ${0.2 + (index * 0.05)}s" onclick="playTrack(${track.id})">
+                <div class="track-number">
+                    ${index + 1}
+                    <div class="play-icon-hover">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
+                    </div>
                 </div>
-                <div class="track-info">
-                    <h3>${track.title}</h3>
-                    <p>${track.artist}</p>
+                <div class="track-main">
+                    <img src="${track.img}" class="track-thumb">
+                    <div class="track-details">
+                        <div class="title">${track.title}</div>
+                        <div class="artist">${track.artist}</div>
+                    </div>
                 </div>
+                <div class="track-album">${track.album}</div>
+                <div class="track-date">${track.date}</div>
+                <div class="track-duration">${track.duration}</div>
             </div>
         `).join('');
     }
@@ -613,15 +567,22 @@
         document.getElementById('now-title').innerText = track.title;
         document.getElementById('now-artist').innerText = track.artist;
         isPlaying = true;
-        document.getElementById('play-btn').innerText = '⏸';
+        updatePlayButton(true);
         startTimer();
     }
 
     function togglePlay() {
         isPlaying = !isPlaying;
-        document.getElementById('play-btn').innerText = isPlaying ? '⏸' : '▶';
+        updatePlayButton(isPlaying);
         if(!isPlaying) clearInterval(timer);
         else startTimer();
+    }
+
+    function updatePlayButton(playing) {
+        const svg = document.getElementById('play-svg');
+        svg.innerHTML = playing 
+            ? '<path d="M6 19h2V5h-2v14zm8 0h2V5h-2v14z"/>' 
+            : '<path d="M8 5v14l11-7z"/>';
     }
 
     function startTimer() {
