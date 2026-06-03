@@ -1,11 +1,36 @@
-function switchTab(element) {
-    const menuItems = document.querySelectorAll('.menu-item');
-    menuItems.forEach(item => item.classList.remove('active'));
-    element.classList.add('active');
+document.addEventListener('DOMContentLoaded', () => {
+    loadPopularTracks();
+    showSection('home');
+});
 
-    const sections = document.querySelectorAll('.grid-section');
-    sections.forEach(section => section.style.display = 'none');
-    document.querySelector(`.${element.getAttribute('data-target')}`).style.display = 'block';
+function showSection(section) {
+    const sections = document.querySelectorAll('.grid-section, .library-section');
+    sections.forEach(sec => sec.style.display = 'none');
+    if (section === 'browse' || section === 'library') {
+        document.querySelector(`#${section}`).style.display = 'block';
+    } else {
+        document.querySelector(`#${section}`).style.display = 'flex';
+    }
+}
+
+function loadPopularTracks() {
+    const popularTracksContainer = document.getElementById('popular-tracks');
+    // Replace with actual data fetching logic
+    const tracks = [
+        { title: 'Midnight City', artist: 'M83', image: 'https://picsum.photos/200?random=1' },
+        { title: 'Starboy', artist: 'The Weeknd', image: 'https://picsum.photos/200?random=2' },
+        // Add more tracks
+    ];
+    tracks.forEach(track => {
+        const trackElement = document.createElement('div');
+        trackElement.classList.add('grid-item');
+        trackElement.innerHTML = `
+            <img src="${track.image}" alt="cover">
+            <h3>${track.title}</h3>
+            <p>${track.artist}</p>
+        `;
+        popularTracksContainer.appendChild(trackElement);
+    });
 }
 
 function prevTrack() {
@@ -41,6 +66,6 @@ function increaseVolume() {
 }
 
 function updateProgress(volume) {
-    const progressBar = document.querySelector('.progress-bar');
+    const progressBar = document.getElementById('progress-bar');
     progressBar.style.width = `${volume}%`;
 }
