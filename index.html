@@ -7,11 +7,6 @@
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- React & ReactDOM -->
-    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-    <!-- Babel for JSX -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
@@ -24,6 +19,7 @@
             color: white;
             overflow: hidden;
             height: 100vh;
+            margin: 0;
         }
 
         /* Glassmorphism Core */
@@ -38,7 +34,7 @@
         .gradient-border {
             position: relative;
             border-radius: 1.5rem;
-            padding: 1px; /* Thickness of border */
+            padding: 1px; 
             background: linear-gradient(to right, #818cf8, #c084fc, #fb7185);
             transition: all 0.3s ease;
         }
@@ -57,6 +53,7 @@
 
         .animate-spring {
             animation: springIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            opacity: 0;
         }
 
         /* Hover Scaling */
@@ -75,198 +72,185 @@
     </style>
 </head>
 <body>
-    <div id="root"></div>
 
-    <script type="text/babel">
-        const { useState, useEffect } = React;
-
-        // --- Components ---
-
-        const Icon = ({ name, className = "w-5 h-5" }) => {
-            return <i data-lucide={name} className={className}></i>;
-        };
-
-        const GlassCard = ({ children, className = "", delay = 0 }) => {
-            return (
-                <div 
-                    className={`gradient-border animate-spring hover-scale ${className}`} 
-                    style={{ animationDelay: `${delay}ms` }}
-                >
-                    <div className="glass rounded-[1.4rem] p-5 h-full w-full">
-                        {children}
-                    </div>
+    <div class="flex h-screen w-full p-4 gap-4 overflow-hidden">
+        
+        <!-- Sidebar -->
+        <aside class="w-64 glass rounded-3xl p-6 flex flex-col gap-8 animate-spring" style="animation-delay: 0ms">
+            <div class="flex items-center gap-3 px-2">
+                <div class="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center">
+                    <i data-lucide="music" class="w-5 h-5 text-white"></i>
                 </div>
-            );
-        };
-
-        const SidebarItem = ({ icon, label, active = false }) => (
-            <div className={`flex items-center gap-4 px-4 py-3 rounded-xl cursor-pointer transition-all duration-300 ${active ? 'bg-white/20 text-white shadow-lg' : 'text-gray-400 hover:bg-white/10 hover:text-white'}`}>
-                <Icon name={icon} />
-                <span className="font-medium">{label}</span>
+                <h1 class="text-xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
+                    AURA AI
+                </h1>
             </div>
-        );
 
-        const TrackCard = ({ title, artist, cover, delay }) => (
-            <GlassCard delay={delay} className="w-48">
-                <div className="relative group cursor-pointer">
-                    <img src={cover} className="w-full aspect-square object-cover rounded-xl mb-4 shadow-lg" />
-                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40 rounded-xl">
-                        <div className="bg-white text-black p-3 rounded-full shadow-xl scale-75 group-hover:scale-100 transition-transform duration-300">
-                            <Icon name="play" className="fill-current" />
-                        </div>
+            <nav class="flex flex-col gap-2">
+                <p class="text-xs font-bold text-gray-500 uppercase px-4 mb-2">Меню</p>
+                <div class="flex items-center gap-4 px-4 py-3 rounded-xl cursor-pointer bg-white/20 text-white shadow-lg">
+                    <i data-lucide="home" class="w-5 h-5"></i>
+                    <span class="font-medium">Главная</span>
+                </div>
+                <div class="flex items-center gap-4 px-4 py-3 rounded-xl cursor-pointer text-gray-400 hover:bg-white/10 hover:text-white transition-all">
+                    <i data-lucide="search" class="w-5 h-5"></i>
+                    <span class="font-medium">Поиск</span>
+                </div>
+                <div class="flex items-center gap-4 px-4 py-3 rounded-xl cursor-pointer text-gray-400 hover:bg-white/10 hover:text-white transition-all">
+                    <i data-lucide="library" class="w-5 h-5"></i>
+                    <span class="font-medium">Библиотека</span>
+                </div>
+                <div class="flex items-center gap-4 px-4 py-3 rounded-xl cursor-pointer text-gray-400 hover:bg-white/10 hover:text-white transition-all">
+                    <i data-lucide="user" class="w-5 h-5"></i>
+                    <span class="font-medium">Профиль</span>
+                </div>
+            </nav>
+
+            <div class="mt-auto">
+                <div class="gradient-border p-[1px] rounded-2xl">
+                    <div class="glass rounded-[15px] p-4 text-center">
+                        <p class="text-xs text-gray-300 mb-3">AI-Подбор активен</p>
+                        <button class="w-full py-2 bg-white text-indigo-900 rounded-lg font-bold text-sm hover:bg-indigo-100 transition-colors">
+                            Обновить поток
+                        </button>
                     </div>
                 </div>
-                <h3 className="font-semibold truncate">{title}</h3>
-                <p className="text-sm text-gray-400 truncate">{artist}</p>
-            </GlassCard>
-        );
+            </div>
+        </aside>
 
-        // --- Main App ---
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto glass rounded-3xl p-8 relative animate-spring" style="animation-delay: 100ms">
+            <div class="flex justify-between items-center mb-10">
+                <h2 class="text-4xl font-extrabold">
+                    Добро пожаловать <span class="text-indigo-400">, Alex</span> 👋
+                </h2>
+                <div class="flex gap-3">
+                    <div class="glass px-4 py-2 rounded-full flex items-center gap-2 text-sm border-white/10">
+                        <i data-lucide="search" class="w-4 h-4"></i>
+                        <input type="text" placeholder="Поиск музыки..." class="bg-transparent outline-none w-32 text-white" />
+                    </div>
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-purple-500 to-pink-500 border-2 border-white/20 cursor-pointer hover-scale"></div>
+                </div>
+            </div>
 
-        const App = () => {
-            const [currentTrack, setCurrentTrack] = useState({ title: "Midnight City", artist: "M83" });
-
-            useEffect(() => {
-                lucide.createIcons();
-            }, []);
-
-            return (
-                <div className="flex h-screen w-full p-4 gap-4 overflow-hidden">
-                    
-                    {/* Sidebar */}
-                    <aside className="w-64 glass rounded-3xl p-6 flex flex-col gap-8">
-                        <div className="flex items-center gap-3 px-2">
-                            <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center">
-                                <Icon name="music" className="w-5 h-5 text-white" />
+            <!-- AI Section -->
+            <section class="mb-12">
+                <div class="flex items-center gap-2 mb-6">
+                    <i data-lucide="sparkles" class="text-yellow-400"></i>
+                    <h3 class="text-2xl font-bold">Сгенерировано ИИ для вас</h3>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="gradient-border rounded-3xl p-1 lg:col-span-1">
+                        <div class="glass rounded-[23px] p-6 h-full flex flex-col justify-between bg-gradient-to-br from-indigo-500/20 to-transparent">
+                            <div>
+                                <h4 class="text-xl font-bold mb-2">Интеллектуальный поток</h4>
+                                <p class="text-gray-400 text-sm">Мы проанализировали ваши плейлисты и подобрали 24 новых трека в стиле Synthwave.</p>
                             </div>
-                            <h1 className="text-xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
-                                AURA AI
-                            </h1>
-                        </div>
-
-                        <nav className="flex flex-col gap-2">
-                            <p className="text-xs font-bold text-gray-500 uppercase px-4 mb-2">Меню</p>
-                            <SidebarItem icon="home" label="Главная" active />
-                            <SidebarItem icon="search" label="Поиск" />
-                            <SidebarItem icon="library" label="Библиотека" />
-                            <SidebarItem icon="user" label="Профиль" />
-                        </nav>
-
-                        <div className="mt-auto">
-                            <div className="gradient-border p-[1px] rounded-2xl">
-                                <div className="glass rounded-[15px] p-4 text-center">
-                                    <p className="text-xs text-gray-300 mb-3">AI-Подбор активен</p>
-                                    <button className="w-full py-2 bg-white text-indigo-900 rounded-lg font-bold text-sm hover:bg-indigo-100 transition-colors">
-                                        Обновить поток
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </aside>
-
-                    {/* Main Content */}
-                    <main className="flex-1 overflow-y-auto glass rounded-3xl p-8 relative">
-                        <div className="flex justify-between items-center mb-10">
-                            <h2 className="text-4xl font-extrabold animate-spring" style={{ animationDelay: '100ms' }}>
-                                Добро пожаловать <span className="text-indigo-400">, Alex</span> 👋
-                            </h2>
-                            <div className="flex gap-3">
-                                <div className="glass px-4 py-2 rounded-full flex items-center gap-2 text-sm border-white/10">
-                                    <Icon name="search" className="w-4 h-4" />
-                                    <input type="text" placeholder="Поиск музыки..." className="bg-transparent outline-none w-32" />
-                                </div>
-                                <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-purple-500 to-pink-500 border-2 border-white/20 cursor-pointer hover-scale" />
-                            </div>
-                        </div>
-
-                        {/* AI Section */}
-                        <section className="mb-12">
-                            <div className="flex items-center gap-2 mb-6">
-                                <Icon name="sparkles" className="text-yellow-400" />
-                                <h3 className="text-2xl font-bold">Сгенерировано ИИ для вас</h3>
-                            </div>
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                <div className="gradient-border rounded-3xl p-1 col-span-full lg:col-span-1">
-                                    <div className="glass rounded-[23px] p-6 h-full flex flex-col justify-between bg-gradient-to-br from-indigo-500/20 to-transparent">
-                                        <div>
-                                            <h4 className="text-xl font-bold mb-2">Интеллектуальный поток</h4>
-                                            <p className="text-gray-400 text-sm">Мы проанализировали ваши плейлисты и подобрали 24 новых трека в стиле Synthwave.</p>
-                                        </div>
-                                        <button className="mt-6 flex items-center justify-center gap-2 py-3 bg-white text-indigo-900 rounded-xl font-bold hover:scale-105 transition-transform">
-                                            <Icon name="play" className="fill-current" /> Слушать сейчас
-                                        </button>
-                                    </div>
-                                </div>
-                                <div className="flex gap-4 overflow-x-auto pb-4">
-                                    <TrackCard title="Nightcall" artist="Kavinsky" cover="https://images.unsplash.com/photo-1614613535308-eb5fbd3358da?w=300&h=300&fit=crop" delay={200} />
-                                    <TrackCard title="Starboy" artist="The Weeknd" cover="https://images.unsplash.com/photo-1493225255756-d9584f8606e9?w=300&h=300&fit=crop" delay={300} />
-                                    <TrackCard title="Blinding Lights" artist="The Weeknd" cover="https://images.unsplash.com/photo-1470225620780-dba8m4880504?w=300&h=300&fit=crop" delay={400} />
-                                </div>
-                            </div>
-                        </section>
-
-                        {/* Library Section */}
-                        <section>
-                            <h3 className="text-2xl font-bold mb-6">Ваша библиотека</h3>
-                            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
-                                <TrackCard title="Lo-fi Chill" artist="Study Beats" cover="https://images.unsplash.com/photo-1516280440614-379396ec4c5b?w=300&h=300&fit=crop" delay={500} />
-                                <TrackCard title="Deep House" artist="Club Mix" cover="https://images.unsplash.com/photo-1459749411177-042180ce673c?w=300&h=300&fit=crop" delay={600} />
-                                <TrackCard title="Techno Rave" artist="Berlin" cover="https://images.unsplash.com/photo-1514525253361-bee8a196765a?w=300&h=300&fit=crop" delay={700} />
-                                <TrackCard title="Jazz Night" artist="Blue Note" cover="https://images.unsplash.com/photo-1511192336575-5a71f34f951d?w=300&h=300&fit=crop" delay={800} />
-                                <TrackCard title="Rock Classics" artist="Legendary" cover="https://images.unsplash.com/photo-1498038432414-6524a53fa66a?w=300&h=300&fit=crop" delay={900} />
-                                <TrackCard title="Ambient Air" artist="Space" cover="https://images.unsplash.com/photo-1508700115892-459865d29a9a?w=300&h=300&fit=crop" delay={1000} />
-                            </div>
-                        </section>
-                    </main>
-
-                    {/* Bottom Player */}
-                    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-6xl gradient-border animate-spring" style={{ animationDelay: '1100ms' }}>
-                        <div className="glass rounded-[23px] p-4 flex items-center justify-between px-8">
-                            <div className="flex items-center gap-4 w-1/3">
-                                <img src="https://images.unsplash.com/photo-1614613535308-eb5fbd3358da?w=100&h=100&fit=crop" className="w-12 h-12 rounded-lg shadow-lg" />
-                                <div>
-                                    <h4 className="font-bold text-sm">{currentTrack.title}</h4>
-                                    <p className="text-xs text-gray-400">{currentTrack.artist}</p>
-                                </div>
-                                <Heart className="w-4 h-4 text-pink-500 ml-2 cursor-pointer hover-scale" />
-                            </div>
-
-                            <div className="flex flex-col items-center gap-2 w-1/3">
-                                <div className="flex items-center gap-6">
-                                    <Icon name="skip-back" className="cursor-pointer hover:text-indigo-400 transition-colors" />
-                                    <div className="w-10 h-10 bg-white text-indigo-900 rounded-full flex items-center justify-center cursor-pointer hover-scale shadow-xl">
-                                        <Icon name="play" className="fill-current w-5 h-5" />
-                                    </div>
-                                    <Icon name="skip-forward" className="cursor-pointer hover:text-indigo-400 transition-colors" />
-                                </div>
-                                <div className="w-full max-w-md h-1 bg-white/10 rounded-full overflow-hidden">
-                                    <div className="w-1/3 h-full bg-gradient-to-r from-indigo-500 to-purple-500" />
-                                </div>
-                            </div>
-
-                            <div className="flex items-center justify-end gap-4 w-1/3">
-                                <Icon name="volume-2" className="w-5 h-5 text-gray-400" />
-                                <div className="w-24 h-1 bg-white/10 rounded-full overflow-hidden">
-                                    <div className="w-2/3 h-full bg-white/60" />
-                                </div>
-                            </div>
+                            <button class="mt-6 flex items-center justify-center gap-2 py-3 bg-white text-indigo-900 rounded-xl font-bold hover:scale-105 transition-transform">
+                                <i data-lucide="play" class="fill-current w-4 h-4"></i> Слушать сейчас
+                            </button>
                         </div>
                     </div>
+                    <div class="lg:col-span-2 flex gap-4 overflow-x-auto pb-4" id="ai-tracks">
+                        <!-- Tracks will be injected by JS -->
+                    </div>
                 </div>
-            );
-        };
+            </section>
 
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
-    </script>
+            <!-- Library Section -->
+            <section>
+                <h3 class="text-2xl font-bold mb-6">Ваша библиотека</h3>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6" id="library-tracks">
+                    <!-- Tracks will be injected by JS -->
+                </div>
+            </section>
+        </main>
 
-    <!-- Script to handle Lucide Icons manually since we are in React but without a bundler -->
+        <!-- Bottom Player -->
+        <div class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-6xl gradient-border animate-spring" style="animation-delay: 200ms">
+            <div class="glass rounded-[23px] p-4 flex items-center justify-between px-8">
+                <div class="flex items-center gap-4 w-1/3">
+                    <img src="https://images.unsplash.com/photo-1614613535308-eb5fbd3358da?w=100&h=100&fit=crop" class="w-12 h-12 rounded-lg shadow-lg" />
+                    <div>
+                        <h4 class="font-bold text-sm">Midnight City</h4>
+                        <p class="text-xs text-gray-400">M83</p>
+                    </div>
+                    <i data-lucide="heart" class="w-4 h-4 text-pink-500 ml-2 cursor-pointer hover-scale"></i>
+                </div>
+
+                <div class="flex flex-col items-center gap-2 w-1/3">
+                    <div class="flex items-center gap-6">
+                        <i data-lucide="skip-back" class="cursor-pointer hover:text-indigo-400 transition-colors w-5 h-5"></i>
+                        <div class="w-10 h-10 bg-white text-indigo-900 rounded-full flex items-center justify-center cursor-pointer hover-scale shadow-xl">
+                            <i data-lucide="play" class="fill-current w-5 h-5"></i>
+                        </div>
+                        <i data-lucide="skip-forward" class="cursor-pointer hover:text-indigo-400 transition-colors w-5 h-5"></i>
+                    </div>
+                    <div class="w-full max-w-md h-1 bg-white/10 rounded-full overflow-hidden">
+                        <div class="w-1/3 h-full bg-gradient-to-r from-indigo-500 to-purple-500"></div>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-end gap-4 w-1/3">
+                    <i data-lucide="volume-2" class="w-5 h-5 text-gray-400"></i>
+                    <div class="w-24 h-1 bg-white/10 rounded-full overflow-hidden">
+                        <div class="w-2/3 h-full bg-white/60"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // Helper to ensure icons are rendered after React updates
-        const observer = new MutationObserver(() => {
-            lucide.createIcons();
+        // Данные для треков
+        const aiTracks = [
+            { title: "Nightcall", artist: "Kavinsky", cover: "https://images.unsplash.com/photo-1614613535308-eb5fbd3358da?w=300&h=300&fit=crop" },
+            { title: "Starboy", artist: "The Weeknd", cover: "https://images.unsplash.com/photo-1493225255756-d9584f8606e9?w=300&h=300&fit=crop" },
+            { title: "Blinding Lights", artist: "The Weeknd", cover: "https://images.unsplash.com/photo-1470225620780-dba8m4880504?w=300&h=300&fit=crop" },
+            { title: "Cyberpunk", artist: "Perturbator", cover: "https://images.unsplash.com/photo-1557683316-973673baf926?w=300&h=300&fit=crop" },
+        ];
+
+        const libTracks = [
+            { title: "Lo-fi Chill", artist: "Study Beats", cover: "https://images.unsplash.com/photo-1516280440614-379396ec4c5b?w=300&h=300&fit=crop" },
+            { title: "Deep House", artist: "Club Mix", cover: "https://images.unsplash.com/photo-1459749411177-042180ce673c?w=300&h=300&fit=crop" },
+            { title: "Techno Rave", artist: "Berlin", cover: "https://images.unsplash.com/photo-1514525253361-bee8a196765a?w=300&h=300&fit=crop" },
+            { title: "Jazz Night", artist: "Blue Note", cover: "https://images.unsplash.com/photo-1511192336575-5a71f34f951d?w=300&h=300&fit=crop" },
+            { title: "Rock Classics", artist: "Legendary", cover: "https://images.unsplash.com/photo-1498038432414-6524a53fa66a?w=300&h=300&fit=crop" },
+            { title: "Ambient Air", artist: "Space", cover: "https://images.unsplash.com/photo-1508700115892-459865d29a9a?w=300&h=300&fit=crop" },
+        ];
+
+        function createTrackCard(track, delay) {
+            return `
+                <div class="gradient-border hover-scale animate-spring w-48" style="animation-delay: ${delay}ms">
+                    <div class="glass rounded-[1.4rem] p-5 h-full w-full">
+                        <div class="relative group cursor-pointer">
+                            <img src="${track.cover}" class="w-full aspect-square object-cover rounded-xl mb-4 shadow-lg" />
+                            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40 rounded-xl">
+                                <div class="bg-white text-black p-3 rounded-full shadow-xl scale-75 group-hover:scale-100 transition-transform duration-300">
+                                    <i data-lucide="play" class="fill-current w-5 h-5"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <h3 class="font-semibold truncate">${track.title}</h3>
+                        <p class="text-sm text-gray-400 truncate">${track.artist}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Рендерим карточки
+        const aiContainer = document.getElementById('ai-tracks');
+        aiTracks.forEach((track, i) => {
+            aiContainer.innerHTML += createTrackCard(track, 200 + (i * 100));
         });
-        observer.observe(document.body, { childList: true, subtree: true });
+
+        const libContainer = document.getElementById('library-tracks');
+        libTracks.forEach((track, i) => {
+            libContainer.innerHTML += createTrackCard(track, 500 + (i * 100));
+        });
+
+        // Инициализация иконок Lucide
+        lucide.createIcons();
     </script>
 </body>
 </html>
