@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SoundWave - Музыкальная Платформа</title>
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/orbital-timeline.css">
+    <link rel="stylesheet" href="css/professional.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Signup Modal -->
+    <div class="signup-modal" id="signup-modal">
+        <div class="signup-backdrop" id="signup-backdrop"></div>
+        <div class="signup-card">
+            <div class="signup-header">
+                <svg class="signup-logo" fill="currentColor" height="48" viewBox="0 0 40 48" width="40">
+                    <clipPath id="a">
+                        <path d="m0 0h40v48h-40z" />
+                    </clipPath>
+                    <g clipPath="url(#a)">
+                        <path d="m25.0887 5.05386-3.933-1.05386-3.3145 12.3696-2.9923-11.16736-3.9331 1.05386 3.233 12.0655-8.05262-8.0526-2.87919 2.8792 8.83271 8.8328-10.99975-2.9474-1.05385625 3.933 12.01860625 3.2204c-.1376-.5935-.2104-1.2119-.2104-1.8473 0-4.4976 3.646-8.1436 8.1437-8.1436 4.4976 0 8.1436 3.646 8.1436 8.1436 0 .6313-.0719 1.2459-.2078 1.8359l10.9227 2.9267 1.0538-3.933-12.0664-3.2332 11.0005-2.9476-1.0539-3.933-12.0659 3.233 8.0526-8.0526-2.8792-2.87916-8.7102 8.71026z" />
+                        <path d="m27.8723 26.2214c-.3372 1.4256-1.0491 2.7063-2.0259 3.7324l7.913 7.9131 2.8792-2.8792z" />
+                        <path d="m25.7665 30.0366c-.9886 1.0097-2.2379 1.7632-3.6389 2.1515l2.8794 10.746 3.933-1.0539z" />
+                        <path d="m21.9807 32.2274c-.65.1671-1.3313.2559-2.0334.2559-.7522 0-1.4806-.102-2.1721-.2929l-2.882 10.7558 3.933 1.0538z" />
+                        <path d="m17.6361 32.1507c-1.3796-.4076-2.6067-1.1707-3.5751-2.1833l-7.9325 7.9325 2.87919 2.8792z" />
+                        <path d="m13.9956 29.8973c-.9518-1.019-1.6451-2.2826-1.9751-3.6862l-10.95836 2.9363 1.05385 3.933z" />
+                    </g>
+                </svg>
+                <h2 class="signup-title">Создать аккаунт</h2>
+                <p class="signup-subtitle">Добро пожаловать! Создайте аккаунт для начала работы</p>
+            </div>
+            <div class="signup-content">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">Имя</label>
+                        <input type="text" id="firstName" class="input-field" placeholder="Введите имя" />
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Фамилия</label>
+                        <input type="text" id="lastName" class="input-field" placeholder="Введите фамилию" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="username">Имя пользователя</label>
+                    <input type="text" id="username" class="input-field" placeholder="@username" />
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" class="input-field" placeholder="example@mail.com" />
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Пароль</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="password" class="input-field" placeholder="Минимум 8 символов" />
+                        <button type="button" class="password-toggle" id="password-toggle">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="checkbox-group">
+                    <label for="terms" class="checkbox-label">
+                        <input type="checkbox" id="terms" class="checkbox-input" />
+                        <span class="checkmark">
+                            <i class="fas fa-check"></i>
+                        </span>
+                        <span class="checkbox-text">Я принимаю <a href="#" class="link">условия использования</a> и <a href="#" class="link">политику конфиденциальности</a></span>
+                    </label>
+                </div>
+
+                <button type="button" class="signup-button" id="signup-button">Создать аккаунт</button>
+            </div>
+            <div class="signup-footer">
+                <p class="signup-footer-text">
+                    Уже есть аккаунт? <a href="#" class="login-link" id="login-link">Войти</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fas fa-wave-square"></i>
+                <span>SoundWave</span>
+            </div>
+            
+            <nav class="nav-pro">
+                <a href="#" class="nav-pro-item active" data-page="home">
+                    <i class="fas fa-home"></i>
+                    <span>Главная</span>
+                </a>
+                <a href="#" class="nav-pro-item" data-page="search">
+                    <i class="fas fa-search"></i>
+                    <span>Поиск</span>
+                </a>
+                <a href="#" class="nav-pro-item" data-page="library">
+                    <i class="fas fa-book"></i>
+                    <span>Библиотека</span>
+                </a>
+                <a href="#" class="nav-pro-item" data-page="timeline">
+                    <i class="fas fa-clock"></i>
+                    <span>Таймлайн</span>
+                </a>
+                <a href="#" class="nav-pro-item" data-page="profile">
+                    <i class="fas fa-user"></i>
+                    <span>Профиль</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-playlists">
+                <h3>Мои плейлисты</h3>
+                <div class="playlist-list" id="sidebar-playlists">
+                    <!-- Playlists will be loaded here -->
+                </div>
+                <button class="create-playlist-btn">
+                    <i class="fas fa-plus"></i>
+                    <span>Создать плейлист</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div class="header-left">
+                    <button class="nav-arrow">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="nav-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                
+                <div class="header-right">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Поиск треков, артистов, альбомов...">
+                    </div>
+                    <button class="header-btn">
+                        <i class="fas fa-bell"></i>
+                    </button>
+                    <div class="user-avatar" id="header-avatar">
+                        <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&h=100&fit=crop" alt="User">
+                    </div>
+                </div>
+            </header>
+
+            <!-- Pages Container -->
+            <div class="pages-container">
+                <!-- Home Page -->
+                <div class="page active" id="home-page">
+                    <!-- Personal Greeting -->
+                    <section class="personal-greeting">
+                        <div class="container-pro">
+                            <h1 class="greeting-title">Добрый день, Александр</h1>
+                            <p class="greeting-subtitle">Что хотите послушать сегодня?</p>
+                        </div>
+                    </section>
+
+                    <!-- Recently Played -->
+                    <section class="section-pro">
+                        <div class="container-pro">
+                            <div class="section-pro-header io-reveal">
+                                <h2 class="section-pro-title">Недавно прослушано</h2>
+                                <a href="#" class="see-all-link">История</a>
+                            </div>
+                            <div class="horizontal-scroll-container">
+                                <div class="horizontal-scroll" id="recently-played">
+                                    <!-- Cards will be loaded here -->
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Featured Banner -->
+                    <section class="featured-banner">
+                        <div class="featured-banner-content">
+                            <div class="featured-banner-info">
+                                <span class="featured-badge">Рекомендуем</span>
+                                <h1 class="featured-title">Новые релизы недели</h1>
+                                <p class="featured-description">Свежие альбомы и синглы от лучших артистов</p>
+                                <button class="featured-btn">
+                                    <i class="fas fa-play"></i>
+                                    Слушать
+                                </button>
+                            </div>
+                            <div class="featured-banner-image">
+                                <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&h=400&fit=crop" alt="Featured">
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Daily Mixes -->
+                    <section class="section-pro">
+                        <div class="container-pro">
+                            <div class="section-pro-header">
+                                <h2 class="section-pro-title">Ежедневные миксы</h2>
+                                <a href="#" class="see-all-link">Все миксы</a>
+                            </div>
+                            <div class="daily-mixes-grid">
+                                <div class="daily-mix-card">
+                                    <div class="daily-mix-image">
+                                        <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=300&h=300&fit=crop" alt="Mix 1">
+                                        <div class="daily-mix-overlay">
+                                            <button class="daily-mix-play">
+                                                <i class="fas fa-play"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <h3 class="daily-mix-title">Микс дня</h3>
+                                    <p class="daily-mix-description">Основано на ваших предпочтениях</p>
+                                </div>
+                                <div class="daily-mix-card">
+                                    <div class="daily-mix-image">
+                                        <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=300&h=300&fit=crop" alt="Mix 2">
+                                        <div class="daily-mix-overlay">
+                                            <button class="daily-mix-play">
+                                                <i class="fas fa-play"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <h3 class="daily-mix-title">Открытия</h3>
+                                    <p class="daily-mix-description">Новая музыка для вас</p>
+                                </div>
+                                <div class="daily-mix-card">
+                                    <div class="daily-mix-image">
+                                        <img src="https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=300&h=300&fit=crop" alt="Mix 3">
+                                        <div class="daily-mix-overlay">
+                                            <button class="daily-mix-play">
+                                                <i class="fas fa-play"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <h3 class="daily-mix-title">Хиты</h3>
+                                    <p class="daily-mix-description">Самые популярные треки</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Personal Recommendations -->
+                    <section class="section-pro">
+                        <div class="container-pro">
+                            <div class="section-pro-header io-reveal">
+                                <h2 class="section-pro-title">Персональные рекомендации</h2>
+                                <a href="#" class="see-all-link">Все рекомендации</a>
+                            </div>
+                            <div class="grid-pro grid-pro-auto" id="recommendations">
+                                <!-- Cards will be loaded here -->
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- New Releases -->
+                    <section class="section-pro">
+                        <div class="container-pro">
+                            <div class="section-pro-header">
+                                <h2 class="section-pro-title">Новые релизы</h2>
+                                <a href="#" class="see-all-link">Все релизы</a>
+                            </div>
+                            <div class="grid-pro grid-pro-auto" id="new-releases">
+                                <!-- Cards will be loaded here -->
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Popular Playlists -->
+                    <section class="section-pro">
+                        <div class="container-pro">
+                            <div class="section-pro-header">
+                                <h2 class="section-pro-title">Популярные плейлисты</h2>
+                                <a href="#" class="see-all-link">Все плейлисты</a>
+                            </div>
+                            <div class="grid-pro grid-pro-auto" id="popular-playlists">
+                                <!-- Cards will be loaded here -->
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Charts -->
+                    <section class="section-pro">
+                        <div class="container-pro">
+                            <div class="section-pro-header">
+                                <h2 class="section-pro-title">Чарты</h2>
+                                <a href="#" class="see-all-link">Все чарты</a>
+                            </div>
+                            <div class="charts-grid">
+                                <div class="chart-card">
+                                    <div class="chart-card-image">
+                                        <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=300&h=300&fit=crop" alt="Russia Top 100">
+                                    </div>
+                                    <div class="chart-card-info">
+                                        <h3 class="chart-card-title">Россия Топ 100</h3>
+                                        <p class="chart-card-description">Самые популярные треки в России</p>
+                                    </div>
+                                </div>
+                                <div class="chart-card">
+                                    <div class="chart-card-image">
+                                        <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=300&h=300&fit=crop" alt="World Top 100">
+                                    </div>
+                                    <div class="chart-card-info">
+                                        <h3 class="chart-card-title">Мировой Топ 100</h3>
+                                        <p class="chart-card-description">Лучшие треки со всего мира</p>
+                                    </div>
+                                </div>
+                                <div class="chart-card">
+                                    <div class="chart-card-image">
+                                        <img src="https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=300&h=300&fit=crop" alt="New Releases">
+                                    </div>
+                                    <div class="chart-card-info">
+                                        <h3 class="chart-card-title">Новые релизы</h3>
+                                        <p class="chart-card-description">Свежая музыка этой недели</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Radio Stations -->
+                    <section class="section-pro">
+                        <div class="container-pro">
+                            <div class="section-pro-header">
+                                <h2 class="section-pro-title">Радиостанции</h2>
+                                <a href="#" class="see-all-link">Все станции</a>
+                            </div>
+                            <div class="radio-grid">
+                                <div class="radio-card">
+                                    <div class="radio-card-icon">
+                                        <i class="fas fa-fire"></i>
+                                    </div>
+                                    <h3 class="radio-card-title">Хиты</h3>
+                                    <p class="radio-card-description">Самые популярные треки</p>
+                                </div>
+                                <div class="radio-card">
+                                    <div class="radio-card-icon">
+                                        <i class="fas fa-heart"></i>
+                                    </div>
+                                    <h3 class="radio-card-title">Романтика</h3>
+                                    <p class="radio-card-description">Любовная лирика</p>
+                                </div>
+                                <div class="radio-card">
+                                    <div class="radio-card-icon">
+                                        <i class="fas fa-bolt"></i>
+                                    </div>
+                                    <h3 class="radio-card-title">Энергия</h3>
+                                    <p class="radio-card-description">Для тренировок</p>
+                                </div>
+                                <div class="radio-card">
+                                    <div class="radio-card-icon">
+                                        <i class="fas fa-moon"></i>
+                                    </div>
+                                    <h3 class="radio-card-title">Релакс</h3>
+                                    <p class="radio-card-description">Для спокойствия</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Podcasts -->
+                    <section class="section-pro">
+                        <div class="container-pro">
+                            <div class="section-pro-header">
+                                <h2 class="section-pro-title">Подкасты</h2>
+                                <a href="#" class="see-all-link">Все подкасты</a>
+                            </div>
+                            <div class="grid-pro grid-pro-auto" id="podcasts">
+                                <!-- Cards will be loaded here -->
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- User Playlists -->
+                    <section class="section-pro">
+                        <div class="container-pro">
+                            <div class="section-pro-header">
+                                <h2 class="section-pro-title">Ваши плейлисты</h2>
+                                <button class="create-playlist-btn">
+                                    <i class="fas fa-plus"></i>
+                                    Создать плейлист
+                                </button>
+                            </div>
+                            <div class="grid-pro grid-pro-auto" id="user-playlists">
+                                <!-- Cards will be loaded here -->
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Top Artists -->
+                    <section class="section-pro">
+                        <div class="container-pro">
+                            <div class="section-pro-header">
+                                <h2 class="section-pro-title">Популярные артисты</h2>
+                                <a href="#" class="see-all-link">Все артисты</a>
+                            </div>
+                            <div class="grid-pro grid-pro-auto" id="top-artists">
+                                <!-- Artists will be loaded here -->
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Search Page -->
+                <div class="page" id="search-page">
+                    <div class="container-pro" style="padding-top: var(--space-16);">
+                        <div class="input-pro-group">
+                            <i class="fas fa-search input-pro-icon"></i>
+                            <input type="text" id="search-input" class="input-pro with-icon" placeholder="Что вы хотите найти?">
+                        </div>
+                    </div>
+
+                    <div class="search-results" id="search-results">
+                        <div class="search-section">
+                            <h3>Недавно искали</h3>
+                            <div class="recent-searches" id="recent-searches">
+                                <!-- Recent searches will be loaded here -->
+                            </div>
+                        </div>
+
+                        <div class="search-section">
+                            <h3>Популярные категории</h3>
+                            <div class="categories-grid" id="categories">
+                                <!-- Categories will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timeline Page -->
+                <div class="page" id="timeline-page">
+                    <div id="orbital-timeline"></div>
+                </div>
+
+                <!-- Library Page -->
+                <div class="page" id="library-page">
+                    <div class="library-header">
+                        <h1>Ваша библиотека</h1>
+                        <div class="library-tabs">
+                            <button class="tab-btn active" data-tab="playlists">Плейлисты</button>
+                            <button class="tab-btn" data-tab="albums">Альбомы</button>
+                            <button class="tab-btn" data-tab="artists">Артисты</button>
+                            <button class="tab-btn" data-tab="tracks">Треки</button>
+                        </div>
+                    </div>
+
+                    <div class="library-content">
+                        <div class="library-tab active" id="playlists-tab">
+                            <div class="library-grid" id="library-playlists">
+                                <!-- Playlists will be loaded here -->
+                            </div>
+                        </div>
+                        <div class="library-tab" id="albums-tab">
+                            <div class="library-grid" id="library-albums">
+                                <!-- Albums will be loaded here -->
+                            </div>
+                        </div>
+                        <div class="library-tab" id="artists-tab">
+                            <div class="library-grid" id="library-artists">
+                                <!-- Artists will be loaded here -->
+                            </div>
+                        </div>
+                        <div class="library-tab" id="tracks-tab">
+                            <div class="tracks-list" id="library-tracks">
+                                <!-- Tracks will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile Page -->
+                <div class="page" id="profile-page">
+                    <div class="profile-header">
+                        <div class="profile-cover"></div>
+                        <div class="profile-info">
+                            <div class="profile-avatar">
+                                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200&h=200&fit=crop" alt="User">
+                                <button class="edit-avatar-btn">
+                                    <i class="fas fa-camera"></i>
+                                </button>
+                            </div>
+                            <div class="profile-details">
+                                <h1>Александр Петров</h1>
+                                <p class="profile-username">@alexpetrov</p>
+                                <div class="profile-stats">
+                                    <div class="stat">
+                                        <span class="stat-value">247</span>
+                                        <span class="stat-label">Плейлистов</span>
+                                    </div>
+                                    <div class="stat">
+                                        <span class="stat-value">1,542</span>
+                                        <span class="stat-label">Треков</span>
+                                    </div>
+                                    <div class="stat">
+                                        <span class="stat-value">89</span>
+                                        <span class="stat-label">Подписчиков</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-content">
+                        <div class="profile-section">
+                            <h2>Недавно прослушанные</h2>
+                            <div class="recent-tracks" id="recent-tracks">
+                                <!-- Recent tracks will be loaded here -->
+                            </div>
+                        </div>
+
+                        <div class="profile-section">
+                            <h2>Любимые треки</h2>
+                            <div class="tracks-list" id="favorite-tracks">
+                                <!-- Favorite tracks will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Music Player -->
+    <div class="music-player" id="music-player">
+        <div class="player-info">
+            <div class="player-cover">
+                <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=100&h=100&fit=crop" alt="Album Cover" id="player-cover">
+            </div>
+            <div class="player-details">
+                <h4 class="player-title" id="player-title">Название трека</h4>
+                <p class="player-artist" id="player-artist">Артист</p>
+            </div>
+            <button class="like-btn" id="like-btn">
+                <i class="far fa-heart"></i>
+            </button>
+        </div>
+
+        <div class="player-controls">
+            <div class="control-buttons">
+                <button class="control-btn" id="shuffle-btn" data-tooltip="Перемешать">
+                    <i class="fas fa-random"></i>
+                </button>
+                <button class="control-btn" id="prev-btn" data-tooltip="Предыдущий">
+                    <i class="fas fa-step-backward"></i>
+                </button>
+                <button class="play-btn" id="play-btn" data-tooltip="Воспроизвести">
+                    <i class="fas fa-play"></i>
+                </button>
+                <button class="control-btn" id="next-btn" data-tooltip="Следующий">
+                    <i class="fas fa-step-forward"></i>
+                </button>
+                <button class="control-btn" id="repeat-btn" data-tooltip="Повтор">
+                    <i class="fas fa-redo"></i>
+                </button>
+            </div>
+            <div class="progress-container">
+                <span class="time current-time" id="current-time">0:00</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                    <input type="range" class="progress-input" id="progress-input" min="0" max="100" value="0">
+                </div>
+                <span class="time total-time" id="total-time">3:45</span>
+            </div>
+        </div>
+
+        <div class="player-volume">
+            <button class="volume-btn" id="volume-btn">
+                <i class="fas fa-volume-up"></i>
+            </button>
+            <div class="volume-bar">
+                <input type="range" class="volume-input" id="volume-input" min="0" max="100" value="70">
+                <div class="volume-fill" id="volume-fill"></div>
+            </div>
+            <button class="queue-btn">
+                <i class="fas fa-list"></i>
+            </button>
+        </div>
+    </div>
+
+    <script src="js/shader-background.js"></script>
+    <script src="js/orbital-timeline.js"></script>
+    <script src="js/signup.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
